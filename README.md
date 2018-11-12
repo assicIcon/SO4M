@@ -51,6 +51,7 @@ public interface UserInfoMapper {
 
 ### 使用(Using)
 - 添加maven依赖
+
 > 此项目还未发布到maven中央仓库，如果需要可下载源码设置到自己的本地仓库
 
 ````xml
@@ -114,6 +115,7 @@ public interface UserInfoMapper {
 ````
 
 - Select in 操作(In)
+
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定SimpleSelectInLanguageDriver类
 
 ````java
