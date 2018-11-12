@@ -50,7 +50,7 @@ public interface UserInfoMapper {
 ```
 
 ### 使用(Using)
-- #### 添加maven依赖
+- 添加maven依赖
 > 此项目还未发布到maven中央仓库，如果需要可下载源码设置到自己的本地仓库
 
 ````xml
@@ -63,7 +63,7 @@ public interface UserInfoMapper {
 
 ````
 
-- #### 插入操作(insert)
+- 插入操作(insert)
 
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定相应插入操作类
 
@@ -83,7 +83,7 @@ public interface UserInfoMapper {
 
 ````
 
-- #### 修改操作(update)
+- 修改操作(update)
 
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定相应修改操作类
 
@@ -113,7 +113,7 @@ public interface UserInfoMapper {
 
 ````
 
-- #### Select in 操作(In)
+- Select in 操作(In)
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定SimpleSelectInLanguageDriver类
 
 ````java
@@ -138,7 +138,7 @@ public interface UserInfoMapper {
 :------: | :---:
 Invisible | 对操作不可见
 
-- #### Invisible注解
+- Invisible注解
 
 > 用于实体类的属性上，表示该属性不会被插入或更改
 
