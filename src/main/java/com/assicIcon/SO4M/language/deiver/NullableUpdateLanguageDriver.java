@@ -1,8 +1,8 @@
-package com.mitang.SO4M.language.deiver;
+package com.assicIcon.SO4M.language.deiver;
 
-import com.mitang.SO4M.annotation.Invisible;
-import com.mitang.SO4M.constant.PatternContant;
-import com.mitang.SO4M.util.CaseUtil;
+import com.assicIcon.SO4M.annotation.Invisible;
+import com.assicIcon.SO4M.constant.PatternContant;
+import com.assicIcon.SO4M.util.CaseUtil;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
@@ -32,11 +32,13 @@ import java.util.regex.Pattern;
  *
  * After :
  * @Update("update t_user (#{user}) where id = #{id}")
- * @Lang(SimpleUpdateLanguageDriver.class)
+ * @Lang(NullableUpdateLanguageDriver.class)
  * void insert(User user)
  *
+ * 注意：user对象中的空属性将会被设置到数据库中
+ * tip: The empty attributes in user will be set up to the database
  */
-public class SimpleUpdateLanguageDriver extends XMLLanguageDriver implements LanguageDriver{
+public class NullableUpdateLanguageDriver extends XMLLanguageDriver implements LanguageDriver {
 
 	private static final Pattern pattern = Pattern.compile(PatternContant.ENTITY_PATTERN);
 
@@ -48,7 +50,8 @@ public class SimpleUpdateLanguageDriver extends XMLLanguageDriver implements Lan
 			stringBuilder.append("<set>");
 			for (Field field : parameterType.getDeclaredFields()) {
 				if (!field.isAnnotationPresent(Invisible.class) && !field.isAnnotationPresent(Id.class)) {
-					stringBuilder.append("<if test=\"_field != null\"> _column = #{_field}, </if>"
+					stringBuilder.append(("<if test=\"_field != null\"> _column = #{_field}, </if>" +
+							"<if test=\"_field == null\"> _column = null,</if>")
 							.replaceAll("_column", CaseUtil.caseToLowerUnderscore(field.getName()))
 							.replaceAll("_field", field.getName()));
 				}

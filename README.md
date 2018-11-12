@@ -8,12 +8,45 @@ SimpleUpdateLanguageDriver | 修改操作，空属性不会设为空
 NullableUpdateLanguageDriver | 修改操作，空属性会被设置到数据库中
 SimpleSelectInLanguageDriver | 查询in操作
 
+### 使用注解方式前后对比
+```java
+import com.assicIcon.SO4M.language.deiver.SimpleUpdateLanguageDriver;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Lang;
+
+public interface UserInfoMapper {
+	
+    // Before
+    @Update(
+    "<script>\n" +
+        "update user_info\n" +
+        "<set>\n" +
+            "<if test=\"id != null\">\n" +
+    				"id = #{id}\n" +
+            "</if>\n" +
+            "<if test=\"username != null\">\n" +
+                "username = #{username}\n" +
+            "</if>\n" +
+        "</set>\n" +
+        "where id = #{id}\n" +
+    "</script>"
+    )
+    void insert(UserInfo userInfo);
+    
+    // After 
+    @Update("update user_info (#{userInfo}) where id = #{id}")
+    @Lang(SimpleUpdateLanguageDriver.class)
+    void insert(UserInfo userInfo);
+    
+}
+```
+
 ### 使用(Using)
 - #### 添加maven依赖
 > 此项目还未发布到maven中央仓库，如果需要可下载源码设置到自己的本地仓库
 ````xml
 <dependency>
-    <groupId>com.mitang</groupId>
+    <groupId>com.github.assicIcon</groupId>
     <artifactId>SO4M</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -22,7 +55,7 @@ SimpleSelectInLanguageDriver | 查询in操作
 - #### 插入操作(insert)
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定相应插入操作类
 ````java
-import com.mitang.SO4M.language.deiver.SimpleInsertLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.SimpleInsertLanguageDriver;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Lang;
 
@@ -38,8 +71,8 @@ public interface UserInfoMapper {
 - #### 修改操作(update)
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定相应修改操作类
 ````java
-import com.mitang.SO4M.language.deiver.SimpleUpdateLanguageDriver;
-import com.mitang.SO4M.language.deiver.NullableUpdateLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.SimpleUpdateLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.NullableUpdateLanguageDriver;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Lang;
 
@@ -66,7 +99,7 @@ public interface UserInfoMapper {
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定SimpleSelectInLanguageDriver类
 
 ````java
-import com.mitang.SO4M.language.deiver.SimpleSelectInLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.SimpleSelectInLanguageDriver;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Lang;
 
@@ -78,4 +111,6 @@ public interface UserInfoMapper {
 	
 }
 ````
+
+
 

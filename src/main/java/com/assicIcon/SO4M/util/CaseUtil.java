@@ -1,4 +1,4 @@
-package com.mitang.SO4M.util;
+package com.assicIcon.SO4M.util;
 
 import com.google.common.base.CaseFormat;
 

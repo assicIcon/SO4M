@@ -1,4 +1,4 @@
-package com.mitang.SO4M.annotation;
+package com.assicIcon.SO4M.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

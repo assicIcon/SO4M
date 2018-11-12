@@ -1,4 +1,4 @@
-package com.mitang.SO4M.constant;
+package com.assicIcon.SO4M.constant;
 
 public class PatternContant {
 

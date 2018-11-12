@@ -1,8 +1,8 @@
-package com.mitang.SO4M.language.deiver;
+package com.assicIcon.SO4M.language.deiver;
 
 import com.google.common.base.CaseFormat;
-import com.mitang.SO4M.annotation.Invisible;
-import com.mitang.SO4M.constant.PatternContant;
+import com.assicIcon.SO4M.annotation.Invisible;
+import com.assicIcon.SO4M.constant.PatternContant;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
