@@ -112,5 +112,31 @@ public interface UserInfoMapper {
 }
 ````
 
+### 注解(annotation)
+注解名称 | 功能
+:------: | :---:
+Invisible | 对操作不可见
+
+- #### Invisible注解
+> 用于实体类的属性上，表示该属性不会被插入或更改
+````java
+import java.util.Date;
+
+public class UserInfo {
+	
+	private Integer id;
+	
+	private String name;
+	
+	// ....
+	
+    // createTime的值将不会被插入或修改
+	@Invisible
+	private Date createTime;
+	
+}
+
+````
+
 
 
