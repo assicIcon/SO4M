@@ -123,7 +123,7 @@ Invisible | 对操作不可见
 ````java
 import java.util.Date;
 
-    public class UserInfo {
+public class UserInfo {
         
     private Integer id;
     
