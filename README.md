@@ -123,17 +123,17 @@ Invisible | 对操作不可见
 ````java
 import java.util.Date;
 
-public class UserInfo {
-	
-	private Integer id;
-	
-	private String name;
-	
-	// ....
-	
+    public class UserInfo {
+        
+    private Integer id;
+    
+    private String name;
+    
+    // ....
+    
     // createTime的值将不会被插入或修改
-	@Invisible
-	private Date createTime;
+    @Invisible
+    private Date createTime;
 	
 }
 
