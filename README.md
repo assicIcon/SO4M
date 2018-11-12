@@ -8,7 +8,8 @@ SimpleUpdateLanguageDriver | 修改操作，空属性不会设为空
 NullableUpdateLanguageDriver | 修改操作，空属性会被设置到数据库中
 SimpleSelectInLanguageDriver | 查询in操作
 
-### 使用注解方式前后对比
+### 对比
+> 使用mybatis注解方式写mapper映射方法前后对比
 ```java
 import com.assicIcon.SO4M.language.deiver.SimpleUpdateLanguageDriver;
 import org.apache.ibatis.annotations.Update;
