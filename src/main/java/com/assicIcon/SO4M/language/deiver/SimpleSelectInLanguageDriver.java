@@ -36,7 +36,7 @@ public class SimpleSelectInLanguageDriver extends XMLLanguageDriver implements L
 	public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType) {
 		Matcher matcher = pattern.matcher(script);
 		if (matcher.find()) {
-			script = matcher.replaceAll("<foreach item=\"_item\" index=\"index\" collector=\"$1\" separator=\",\"> #{_item} </foreach>");
+			script = matcher.replaceAll("<foreach item=\"_item\" index=\"index\" collection=\"$1\" separator=\",\" open=\"(\" close=\")\"> #{_item} </foreach>");
 			script = "<script>" + script + "</script>";
 		}
 		return super.createSqlSource(configuration, script, parameterType);
