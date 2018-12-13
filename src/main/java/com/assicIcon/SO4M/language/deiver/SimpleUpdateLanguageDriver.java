@@ -48,7 +48,7 @@ public class SimpleUpdateLanguageDriver extends XMLLanguageDriver implements Lan
 			stringBuilder.append("<set>");
 			for (Field field : parameterType.getDeclaredFields()) {
 				if (!field.isAnnotationPresent(Invisible.class) && !field.isAnnotationPresent(Id.class)) {
-					stringBuilder.append("<if test=\"_field != null\"> _column = #{_field}, </if>"
+					stringBuilder.append("<if test=\"_field != null\"> `_column` = #{_field}, </if>"
 							.replaceAll("_column", CaseUtil.caseToLowerUnderscore(field.getName()))
 							.replaceAll("_field", field.getName()));
 				}

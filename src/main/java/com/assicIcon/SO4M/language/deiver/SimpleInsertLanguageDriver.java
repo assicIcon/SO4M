@@ -35,7 +35,7 @@ public class SimpleInsertLanguageDriver extends XMLLanguageDriver implements Lan
 			StringBuilder values = new StringBuilder();
 			for(Field field : parameterType.getDeclaredFields()) {
 				if(!field.isAnnotationPresent(Invisible.class)) {
-					columns.append(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + ",");
+					columns.append( "`" + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + "`,");
 					values.append("#{" + field.getName() + "},");
 				}
 			}
