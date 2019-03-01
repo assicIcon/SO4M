@@ -2,6 +2,7 @@ package com.assicIcon.SO4M.language.deiver;
 
 import com.assicIcon.SO4M.annotation.Invisible;
 import com.assicIcon.SO4M.constant.PatternContant;
+import com.assicIcon.SO4M.constant.SqlConstant;
 import com.assicIcon.SO4M.util.CaseUtil;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.scripting.LanguageDriver;
@@ -50,10 +51,9 @@ public class NullableUpdateLanguageDriver extends XMLLanguageDriver implements L
 			stringBuilder.append("<set>");
 			for (Field field : parameterType.getDeclaredFields()) {
 				if (!field.isAnnotationPresent(Invisible.class) && !field.isAnnotationPresent(Id.class)) {
-					stringBuilder.append(("<if test=\"_field != null\"> `_column` = #{_field}, </if>" +
-							"<if test=\"_field == null\"> _column = null,</if>")
-							.replaceAll("_column", CaseUtil.caseToLowerUnderscore(field.getName()))
-							.replaceAll("_field", field.getName()));
+				    String sql = SqlConstant.insertIfColumnNotNull() + SqlConstant.insertIfColumnIsNull();
+					stringBuilder.append(sql.replaceAll(SqlConstant.COLUMN, CaseUtil.caseToLowerUnderscore(field.getName()))
+							.replaceAll(SqlConstant.FIELD, field.getName()));
 				}
 			}
 			stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
