@@ -1,5 +1,6 @@
-package com.assicIcon.SO4M.language.deiver;
+package com.assicIcon.SO4M.language.deiver.base;
 
+import com.assicIcon.SO4M.constant.SqlConstant;
 import com.google.common.base.CaseFormat;
 import com.assicIcon.SO4M.annotation.Invisible;
 import com.assicIcon.SO4M.constant.PatternContant;
@@ -23,26 +24,24 @@ import java.util.regex.Pattern;
  * void insert(User user)
  *
  */
-public class SimpleInsertLanguageDriver extends XMLLanguageDriver implements LanguageDriver {
+public class InsertLanguageDriver extends BaseLanguageDriver {
 
 	private static final Pattern pattern = Pattern.compile(PatternContant.ENTITY_PATTERN);
 
 	@Override
 	public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType) {
-		Matcher matcher = pattern.matcher(script);
-		if(matcher.find()) {
-			StringBuilder columns = new StringBuilder();
-			StringBuilder values = new StringBuilder();
-			for(Field field : parameterType.getDeclaredFields()) {
-				if(!field.isAnnotationPresent(Invisible.class)) {
-					columns.append( "`" + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + "`,");
-					values.append("#{" + field.getName() + "},");
-				}
-			}
-			columns.deleteCharAt(columns.lastIndexOf(","));
-			values.deleteCharAt(values.lastIndexOf(","));
-			script = matcher.replaceAll("(" + columns + ") values (" + values + ")");
-		}
+        String tableName = super.getTableName(parameterType);
+        StringBuilder columns = new StringBuilder();
+        StringBuilder fields = new StringBuilder();
+        for(Field field : parameterType.getDeclaredFields()) {
+            if(!field.isAnnotationPresent(Invisible.class)) {
+                columns.append( "`" + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + "`,");
+                fields.append("#{" + field.getName() + "},");
+            }
+        }
+        columns.deleteCharAt(columns.lastIndexOf(","));
+        fields.deleteCharAt(fields.lastIndexOf(","));
+        script = SqlConstant.insert(columns.toString(), fields.toString()).replaceAll(SqlConstant.TABLE, tableName);
 		return super.createSqlSource(configuration, script, parameterType);
 	}
 }

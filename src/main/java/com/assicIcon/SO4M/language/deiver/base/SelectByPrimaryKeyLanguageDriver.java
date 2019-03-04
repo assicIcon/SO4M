@@ -1,4 +1,4 @@
-package com.assicIcon.SO4M.language.deiver;
+package com.assicIcon.SO4M.language.deiver.base;
 
 import com.assicIcon.SO4M.constant.SqlConstant;
 import com.assicIcon.SO4M.util.CaseUtil;
@@ -16,14 +16,14 @@ import java.lang.reflect.Field;
  * @Create 2019/3/1
  * @Desc 描述
  */
-public class SelectByPrimaryKeyLanguageDriver extends XMLLanguageDriver implements LanguageDriver {
+public class SelectByPrimaryKeyLanguageDriver extends BaseLanguageDriver {
 
     @Override
     public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType) {
         if(parameterType.isAnnotationPresent(Table.class)) {
             script = SqlConstant.selectByPrimaryKey();
-            Table annotation = parameterType.getAnnotation(Table.class);
-            script.replace(SqlConstant.TABLE, annotation.name());
+            String tableName = super.getTableName(parameterType);
+            script = script.replace(SqlConstant.TABLE, tableName);
             for(Field field : parameterType.getDeclaredFields()) {
                 if(field.isAnnotationPresent(Id.class)) {
                     script = script.replace(SqlConstant.ID_COLUMN, CaseUtil.caseToLowerUnderscore(field.getName()))

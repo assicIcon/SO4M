@@ -1,4 +1,4 @@
-package com.assicIcon.SO4M.language.deiver;
+package com.assicIcon.SO4M.language.deiver.base;
 
 import com.assicIcon.SO4M.annotation.Invisible;
 import com.assicIcon.SO4M.constant.PatternContant;
@@ -39,27 +39,26 @@ import java.util.regex.Pattern;
  * 注意：user对象中的空属性将会被设置到数据库中
  * tip: The empty attributes in user will be set up to the database
  */
-public class NullableUpdateLanguageDriver extends XMLLanguageDriver implements LanguageDriver {
-
-	private static final Pattern pattern = Pattern.compile(PatternContant.ENTITY_PATTERN);
+public class UpdateByPrimaryKeyLanguageDriver extends BaseLanguageDriver {
 
 	@Override
 	public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType) {
-		Matcher matcher = pattern.matcher(script);
-		if (matcher.find()) {
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("<set>");
-			for (Field field : parameterType.getDeclaredFields()) {
-				if (!field.isAnnotationPresent(Invisible.class) && !field.isAnnotationPresent(Id.class)) {
-				    String sql = SqlConstant.insertIfColumnNotNull() + SqlConstant.insertIfColumnIsNull();
-					stringBuilder.append(sql.replaceAll(SqlConstant.COLUMN, CaseUtil.caseToLowerUnderscore(field.getName()))
-							.replaceAll(SqlConstant.FIELD, field.getName()));
-				}
-			}
-			stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
-			stringBuilder.append("</set>");
-			script = "<script>" + matcher.replaceAll(stringBuilder.toString()) + "</script>";
-		}
+        String tableName = super.getTableName(parameterType);
+        String idFieldName = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Field field : parameterType.getDeclaredFields()) {
+            if(field.isAnnotationPresent(Id.class)) {
+                idFieldName = field.getName();
+            } else {
+                stringBuilder.append(String.format("`%s` = #{%s},", CaseUtil.caseToLowerUnderscore(field.getName()), field.getName()));
+            }
+        }
+        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
+        script = SqlConstant.updateByPrimaryKey(stringBuilder.toString())
+                .replaceAll(SqlConstant.TABLE, tableName)
+                .replace(SqlConstant.ID_COLUMN, CaseUtil.caseToLowerUnderscore(idFieldName))
+                .replace(SqlConstant.ID_FIELD, idFieldName);
+        System.out.println(script);
 		return super.createSqlSource(configuration, script, parameterType);
 	}
 }

@@ -17,7 +17,7 @@ SimpleSelectInLanguageDriver | 查询in操作
 
 ```java
 
-import com.assicIcon.SO4M.language.deiver.SimpleUpdateLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.base.UpdateByPrimaryKeySelectiveLanguageDriver;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Lang;
 
@@ -42,7 +42,7 @@ public interface UserInfoMapper {
     
     // After 
     @Update("update user_info (#{userInfo}) where id = #{id}")
-    @Lang(SimpleUpdateLanguageDriver.class)
+    @Lang(UpdateByPrimaryKeyLanguageDriver.class)
     void insert(UserInfo userInfo);
     
 }
@@ -70,7 +70,7 @@ public interface UserInfoMapper {
 
 ````java
 
-import com.assicIcon.SO4M.language.deiver.SimpleInsertLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.base.InsertLanguageDriver;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Lang;
 
@@ -89,8 +89,8 @@ public interface UserInfoMapper {
 > 在mapper接口的方法上加上Mybatis的@Lang注解，并指定相应修改操作类
 
 ````java
-import com.assicIcon.SO4M.language.deiver.SimpleUpdateLanguageDriver;
-import com.assicIcon.SO4M.language.deiver.NullableUpdateLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.base.UpdateByPrimaryKeySelectiveLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.base.UpdateByPrimaryKeyLanguageDriver;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Lang;
 
@@ -100,7 +100,7 @@ public interface UserInfoMapper {
     * 空属性不会被设置到数据库中
     */
     @Update("update user_info (#{userInfo})")
-    @Lang(SimpleUpdateLanguageDriver.class)
+    @Lang(UpdateByPrimaryKeyLanguageDriver.class)
     void update(UserInfo userInfo);
     
     /**
@@ -120,7 +120,7 @@ public interface UserInfoMapper {
 
 ````java
 
-import com.assicIcon.SO4M.language.deiver.SimpleSelectInLanguageDriver;
+import com.assicIcon.SO4M.language.deiver.SelectInLanguageDriver;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Lang;
 

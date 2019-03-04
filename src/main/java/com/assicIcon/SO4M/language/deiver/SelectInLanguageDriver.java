@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
  * @Lang(SimpleSelectInLanguageDriver.class)
  * List<user> getUsers(List<Integer> ids);
  */
-public class SimpleSelectInLanguageDriver extends XMLLanguageDriver implements LanguageDriver {
+public class SelectInLanguageDriver extends XMLLanguageDriver implements LanguageDriver {
 
 	private static final Pattern pattern = Pattern.compile(PatternContant.ENTITY_PATTERN);
 

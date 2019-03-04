@@ -20,27 +20,32 @@ public class SqlConstant {
     public static final String FIELD = "_field";
 
     public static String selectByPrimaryKey() {
-        String sql = "SELECT * FROM %s WHERE `%s` = #{%s}";
+        String sql = "</script>SELECT * FROM %s WHERE `%s` = #{%s}</script>";
         return String.format(sql, TABLE, ID_COLUMN, ID_FIELD);
     }
 
-    public static String insertIfColumnNotNull() {
+    public static String updateIfColumnNotNull() {
         String sql = "<if test = \"%s != null\">`%s` = #{%s},</if>";
         return String.format(sql, FIELD, COLUMN, FIELD);
     }
 
-    public static String insertIfColumnIsNull() {
+    public static String updateIfColumnIsNull() {
         String sql = "<if test = \"%s == null\">`%s` = #{%s},</if>";
         return String.format(sql, FIELD, COLUMN, FIELD);
     }
 
     public static String updateByPrimaryKey(String script) {
-        String sql = "UPDATE %s " + script + " WHERE `%s` = #{%s}";
+        String sql = "<script>UPDATE %s <set> " + script + " </set> WHERE `%s` = #{%s}</script>";
         return String.format(sql, TABLE, ID_COLUMN, ID_FIELD);
     }
 
+    public static String insert(String script) {
+        String sql = "<script>INSERT INTO %s " + script + "</script>";
+        return String.format(sql, TABLE);
+    }
+
     public static String insert(String columns, String fields) {
-        String sql = "INSERT INTO %s (" + columns + ") VALUES (" + fields + ")";
+        String sql = "<script>INSERT INTO %s (" + columns + ") VALUES (" + fields + ")</script>";
         return String.format(sql, TABLE);
     }
 
@@ -51,6 +56,21 @@ public class SqlConstant {
         fields.forEach(e -> field.append("`" + e + "`,"));
         String sql = "INSERT INTO %s (" + column + ") VALUES (" + field + ")";
         return String.format(sql, TABLE);
+    }
+
+    public static String insertIfNotNullField() {
+        String sql = "<if test=\"%s != null\" >#{%s},</if>";
+        return String.format(sql, FIELD, FIELD);
+    }
+
+    public static String insertIfNotNullColumn() {
+        String sql = "<if test=\"%s != null\" >%s,</if>";
+        return String.format(sql, FIELD, COLUMN);
+    }
+
+    public static String trim(String prefix, String suffix, String suffixOverrides, String Content) {
+        String xml = "<trim prefix=\"%s\" suffix=\"%s\" suffixOverrides=\"%s\">%s</trim>";
+        return String.format(xml, prefix, suffix, suffixOverrides, Content);
     }
 
 }
