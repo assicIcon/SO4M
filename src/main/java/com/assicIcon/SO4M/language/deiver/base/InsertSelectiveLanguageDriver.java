@@ -29,7 +29,6 @@ public class InsertSelectiveLanguageDriver extends BaseLanguageDriver {
         fields.append("</trim>");
         script = SqlConstant.insert(columns.toString() + fields.toString())
                 .replaceAll(SqlConstant.TABLE, tableName);
-        System.out.println(script);
         return super.createSqlSource(configuration, script, parameterType);
     }
 }

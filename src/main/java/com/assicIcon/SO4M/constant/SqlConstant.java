@@ -20,8 +20,18 @@ public class SqlConstant {
     public static final String FIELD = "_field";
 
     public static String selectByPrimaryKey() {
-        String sql = "</script>SELECT * FROM %s WHERE `%s` = #{%s}</script>";
+        String sql = "SELECT * FROM %s WHERE `%s` = #{%s}";
         return String.format(sql, TABLE, ID_COLUMN, ID_FIELD);
+    }
+
+    public static String selectByCondition(String script) {
+        String sql = "<script>SELECT * FROM %s WHERE 1 = 1 %s</script>";
+        return String.format(sql, TABLE, script);
+    }
+
+    public static String whereIfColumnNotNull() {
+        String sql = "<if test = \"%s != null\"> AND `%s` = #{%s}</if>";
+        return String.format(sql, FIELD, COLUMN, FIELD);
     }
 
     public static String updateIfColumnNotNull() {
@@ -71,6 +81,11 @@ public class SqlConstant {
     public static String trim(String prefix, String suffix, String suffixOverrides, String Content) {
         String xml = "<trim prefix=\"%s\" suffix=\"%s\" suffixOverrides=\"%s\">%s</trim>";
         return String.format(xml, prefix, suffix, suffixOverrides, Content);
+    }
+
+    public static String delete()  {
+        String sql = "delete %s where `%s` = #{%s}";
+        return String.format(sql, TABLE, ID_COLUMN, ID_FIELD);
     }
 
 }

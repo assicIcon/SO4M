@@ -58,7 +58,6 @@ public class UpdateByPrimaryKeyLanguageDriver extends BaseLanguageDriver {
                 .replaceAll(SqlConstant.TABLE, tableName)
                 .replace(SqlConstant.ID_COLUMN, CaseUtil.caseToLowerUnderscore(idFieldName))
                 .replace(SqlConstant.ID_FIELD, idFieldName);
-        System.out.println(script);
 		return super.createSqlSource(configuration, script, parameterType);
 	}
 }
